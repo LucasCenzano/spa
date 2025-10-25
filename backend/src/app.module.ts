@@ -7,16 +7,17 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { ServicesModule } from './services/services.module';
-import { BookingsModule } from './bookings/bookings.module';
-import { ReviewsModule } from './reviews/reviews.module';
-import { EmployeesModule } from './employees/employees.module';
-import { AdminModule } from './admin/admin.module';
-import { NotificationsModule } from './notifications/notifications.module';
-import { GiftCardsModule } from './gift-cards/gift-cards.module';
-import { PromotionsModule } from './promotions/promotions.module';
-import { InventoryModule } from './inventory/inventory.module';
-import { AnalyticsModule } from './analytics/analytics.module';
+// TODO: Descomentar cuando los módulos estén implementados
+// import { ServicesModule } from './services/services.module';
+// import { BookingsModule } from './bookings/bookings.module';
+// import { ReviewsModule } from './reviews/reviews.module';
+// import { EmployeesModule } from './employees/employees.module';
+// import { AdminModule } from './admin/admin.module';
+// import { NotificationsModule } from './notifications/notifications.module';
+// import { GiftCardsModule } from './gift-cards/gift-cards.module';
+// import { PromotionsModule } from './promotions/promotions.module';
+// import { InventoryModule } from './inventory/inventory.module';
+// import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -38,16 +39,17 @@ import { AnalyticsModule } from './analytics/analytics.module';
     PrismaModule,
     AuthModule,
     UsersModule,
-    ServicesModule,
-    BookingsModule,
-    ReviewsModule,
-    EmployeesModule,
-    AdminModule,
-    NotificationsModule,
-    GiftCardsModule,
-    PromotionsModule,
-    InventoryModule,
-    AnalyticsModule,
+    // TODO: Descomentar cuando los módulos estén implementados
+    // ServicesModule,
+    // BookingsModule,
+    // ReviewsModule,
+    // EmployeesModule,
+    // AdminModule,
+    // NotificationsModule,
+    // GiftCardsModule,
+    // PromotionsModule,
+    // InventoryModule,
+    // AnalyticsModule,
   ],
 })
 export class AppModule {}
