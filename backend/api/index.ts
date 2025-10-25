@@ -7,13 +7,19 @@ import express = require('express');
 const compression = require('compression');
 const helmet = require('helmet');
 
-const expressApp = express();
+let cachedServer: any;
 
-async function createNestServer(expressInstance: any) {
-  const app = await NestFactory.create(
-    AppModule,
-    new ExpressAdapter(expressInstance),
-  );
+async function bootstrapServer() {
+  if (cachedServer) {
+    return cachedServer;
+  }
+
+  const expressApp = express();
+  const adapter = new ExpressAdapter(expressApp);
+
+  const app = await NestFactory.create(AppModule, adapter, {
+    logger: ['error', 'warn', 'log'],
+  });
 
   // Security
   app.use(helmet.default ? helmet.default() : helmet());
@@ -56,11 +62,11 @@ async function createNestServer(expressInstance: any) {
 
   await app.init();
 
-  return app;
+  cachedServer = expressApp;
+  return expressApp;
 }
 
-createNestServer(expressApp)
-  .then(() => console.log('Nest Ready'))
-  .catch((err) => console.error('Nest broken', err));
-
-export default expressApp;
+export default async (req: any, res: any) => {
+  const server = await bootstrapServer();
+  return server(req, res);
+};
