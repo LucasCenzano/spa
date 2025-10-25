@@ -21,8 +21,18 @@ async function bootstrapServer() {
     logger: ['error', 'warn', 'log'],
   });
 
-  // Security
-  app.use(helmet.default ? helmet.default() : helmet());
+  // Security - Configure helmet to allow CDN for Swagger
+  const helmetMiddleware = helmet.default || helmet;
+  app.use(helmetMiddleware({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+        imgSrc: ["'self'", "data:", "https://validator.swagger.io"],
+      },
+    },
+  }));
   app.use(compression());
 
   // CORS
@@ -59,10 +69,16 @@ async function bootstrapServer() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document, {
+    customSiteTitle: 'Spa Management API',
+    customCss: '.swagger-ui .topbar { display: none }',
+    customfavIcon: 'https://swagger.io/favicon.ico',
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
     customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.min.css',
     customJs: [
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.min.js',
     ],
   });
 
