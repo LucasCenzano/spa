@@ -13,7 +13,12 @@ export class AuthController {
   @ApiOperation({ summary: 'Registrar nuevo usuario' })
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente' })
   async register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
+    try {
+      return await this.authService.register(dto);
+    } catch (error) {
+      console.error('❌ Registration error:', error);
+      throw error;
+    }
   }
 
   @Post('login')
