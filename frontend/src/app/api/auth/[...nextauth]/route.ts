@@ -16,12 +16,16 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.error('❌ Missing credentials')
           return null
         }
 
         try {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://spa-backend-beta.vercel.app'
+          console.log('🔐 Attempting login to:', `${apiUrl}/api/auth/login`)
+          
           // Call your backend API to validate credentials
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+          const response = await fetch(`${apiUrl}/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -31,8 +35,10 @@ const authOptions: NextAuthOptions = {
           })
 
           const data = await response.json()
+          console.log('🔐 Login response status:', response.status)
 
           if (response.ok && data.user) {
+            console.log('✅ Login successful for:', data.user.email)
             return {
               id: data.user.id,
               email: data.user.email,
@@ -42,9 +48,10 @@ const authOptions: NextAuthOptions = {
             }
           }
 
+          console.error('❌ Login failed:', data)
           return null
         } catch (error) {
-          console.error('Auth error:', error)
+          console.error('❌ Auth error:', error)
           return null
         }
       },
