@@ -1,0 +1,412 @@
+// Prisma Schema para Sistema de Spa
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  relationMode = "prisma"
+}
+
+// ============================================
+// USUARIOS Y AUTENTICACIÓN
+// ============================================
+
+enum UserRole {
+  CLIENT
+  EMPLOYEE
+  MANAGER
+  ADMIN
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  APPLE
+}
+
+model User {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  password      String?       // Null si usa OAuth
+  name          String
+  phone         String?
+  avatar        String?
+  role          UserRole      @default(CLIENT)
+  authProvider  AuthProvider  @default(EMAIL)
+  isActive      Boolean       @default(true)
+  emailVerified Boolean       @default(false)
+  
+  // Cliente
+  referralCode  String?       @unique
+  referredBy    String?
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relaciones
+  bookings      Booking[]
+  reviews       Review[]
+  giftCards     GiftCard[]
+  walletTransactions WalletTransaction[]
+  employeeBookings Booking[]   @relation("EmployeeBookings")
+  
+  // Empleado
+  employeeProfile EmployeeProfile?
+  availability    Availability[]
+  
+  @@index([email])
+  @@index([referralCode])
+  @@map("users")
+}
+
+model EmployeeProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  bio         String?
+  specialties String[]
+  certifications String[]
+  yearsExperience Int?
+  isAvailable Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("employee_profiles")
+}
+
+// ============================================
+// SERVICIOS
+// ============================================
+
+enum ServiceCategory {
+  MASSAGE
+  FACIAL
+  BODY_TREATMENT
+  RITUAL
+  PACKAGE
+}
+
+model Service {
+  id          String          @id @default(uuid())
+  name        String
+  description String
+  category    ServiceCategory
+  duration    Int             // en minutos
+  price       Decimal         @db.Decimal(10, 2)
+  images      String[]
+  isActive    Boolean         @default(true)
+  isFeatured  Boolean         @default(false)
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  // Relaciones
+  addOns      ServiceAddOn[]
+  bookings    Booking[]
+  
+  @@index([category])
+  @@index([isActive])
+  @@map("services")
+}
+
+model ServiceAddOn {
+  id          String   @id @default(uuid())
+  serviceId   String
+  service     Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  
+  name        String
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  duration    Int?     // minutos adicionales
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("service_addons")
+}
+
+// ============================================
+// RESERVAS
+// ============================================
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PARTIAL
+  PAID
+  REFUNDED
+}
+
+model Booking {
+  id            String        @id @default(uuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  serviceId     String
+  service       Service       @relation(fields: [serviceId], references: [id])
+  employeeId    String?
+  employee      User?         @relation("EmployeeBookings", fields: [employeeId], references: [id])
+  
+  date          DateTime
+  startTime     DateTime
+  endTime       DateTime
+  
+  status        BookingStatus   @default(PENDING)
+  paymentStatus PaymentStatus   @default(PENDING)
+  
+  totalAmount   Decimal       @db.Decimal(10, 2)
+  paidAmount    Decimal       @default(0) @db.Decimal(10, 2)
+  
+  addOns        Json?         // IDs de add-ons seleccionados
+  notes         String?
+  
+  // Notificaciones
+  reminderSent  Boolean       @default(false)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relaciones
+  review        Review?
+  
+  @@index([userId])
+  @@index([serviceId])
+  @@index([date])
+  @@index([status])
+  @@map("bookings")
+}
+
+model Availability {
+  id          String   @id @default(uuid())
+  employeeId  String
+  employee    User     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  
+  dayOfWeek   Int      // 0-6 (Domingo-Sábado)
+  startTime   String   // HH:mm
+  endTime     String   // HH:mm
+  isAvailable Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([employeeId, dayOfWeek, startTime])
+  @@map("availability")
+}
+
+// ============================================
+// REVIEWS
+// ============================================
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Review {
+  id          String       @id @default(uuid())
+  bookingId   String       @unique
+  booking     Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  
+  rating      Int          // 1-5
+  comment     String?
+  status      ReviewStatus @default(PENDING)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  @@index([status])
+  @@map("reviews")
+}
+
+// ============================================
+// GIFT CARDS
+// ============================================
+
+enum GiftCardStatus {
+  ACTIVE
+  USED
+  EXPIRED
+  CANCELLED
+}
+
+model GiftCard {
+  id            String          @id @default(uuid())
+  code          String          @unique
+  purchasedBy   String
+  purchaser     User            @relation(fields: [purchasedBy], references: [id])
+  
+  recipientName  String?
+  recipientEmail String?
+  
+  amount        Decimal         @db.Decimal(10, 2)
+  remainingAmount Decimal       @db.Decimal(10, 2)
+  status        GiftCardStatus  @default(ACTIVE)
+  
+  expiresAt     DateTime?
+  
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  // Relaciones
+  transactions  WalletTransaction[]
+  
+  @@index([code])
+  @@index([status])
+  @@map("gift_cards")
+}
+
+// ============================================
+// WALLET Y TRANSACCIONES
+// ============================================
+
+enum TransactionType {
+  GIFT_CARD_PURCHASE
+  GIFT_CARD_USE
+  REFERRAL_BONUS
+  PAYMENT
+  REFUND
+}
+
+model WalletTransaction {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id])
+  giftCardId  String?
+  giftCard    GiftCard?       @relation(fields: [giftCardId], references: [id])
+  
+  type        TransactionType
+  amount      Decimal         @db.Decimal(10, 2)
+  description String
+  
+  createdAt   DateTime        @default(now())
+  
+  @@index([userId])
+  @@map("wallet_transactions")
+}
+
+// ============================================
+// PROMOCIONES
+// ============================================
+
+enum PromotionType {
+  PERCENTAGE
+  FIXED_AMOUNT
+  FREE_SERVICE
+}
+
+model Promotion {
+  id          String        @id @default(uuid())
+  name        String
+  description String
+  code        String?       @unique
+  type        PromotionType
+  value       Decimal       @db.Decimal(10, 2)
+  
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean       @default(true)
+  
+  minAmount   Decimal?      @db.Decimal(10, 2)
+  maxUses     Int?
+  usedCount   Int           @default(0)
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  @@index([code])
+  @@index([isActive])
+  @@map("promotions")
+}
+
+// ============================================
+// INVENTARIO
+// ============================================
+
+enum InventoryStatus {
+  IN_STOCK
+  LOW_STOCK
+  OUT_OF_STOCK
+  IN_USE
+  IN_CLEANING
+}
+
+model InventoryItem {
+  id          String           @id @default(uuid())
+  name        String
+  category    String
+  quantity    Int
+  minQuantity Int              @default(5)
+  status      InventoryStatus  @default(IN_STOCK)
+  
+  unit        String?          // unidad, litro, kg, etc
+  cost        Decimal?         @db.Decimal(10, 2)
+  supplier    String?
+  
+  expiresAt   DateTime?
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  @@index([status])
+  @@map("inventory_items")
+}
+
+// ============================================
+// AUDITORÍA
+// ============================================
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+}
+
+model AuditLog {
+  id          String      @id @default(uuid())
+  userId      String
+  action      AuditAction
+  entity      String      // Tabla afectada
+  entityId    String?     // ID del registro
+  changes     Json?       // Cambios realizados
+  ipAddress   String?
+  userAgent   String?
+  
+  createdAt   DateTime    @default(now())
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================
+// CONFIGURACIÓN DEL SISTEMA
+// ============================================
+
+model SystemConfig {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("system_config")
+}

@@ -1,0 +1,14 @@
+# No incluir en el deployment de Vercel
+node_modules
+.env
+.env.local
+.git
+*.log
+coverage
+.cache
+.temp
+.tmp
+*.test.ts
+*.spec.ts
+test/
+tests/
