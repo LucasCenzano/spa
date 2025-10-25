@@ -48,7 +48,8 @@
     "twilio": "^4.20.0",
     "date-fns": "^3.0.6",
     "helmet": "^7.1.0",
-    "compression": "^1.7.4"
+    "compression": "^1.7.4",
+    "@types/compression": "^1.7.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.2.1",
