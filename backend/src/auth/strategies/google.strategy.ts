@@ -7,11 +7,15 @@ import { ConfigService } from '@nestjs/config';
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(private config: ConfigService) {
     super({
-      clientID: config.get('GOOGLE_CLIENT_ID'),
-      clientSecret: config.get('GOOGLE_CLIENT_SECRET'),
-      callbackURL: config.get('GOOGLE_CALLBACK_URL'),
+      clientID: config.get('GOOGLE_CLIENT_ID') || 'dummy-client-id',
+      clientSecret: config.get('GOOGLE_CLIENT_SECRET') || 'dummy-secret',
+      callbackURL: config.get('GOOGLE_CALLBACK_URL') || 'http://localhost:4000/auth/google/callback',
       scope: ['email', 'profile'],
     });
+    
+    if (!config.get('GOOGLE_CLIENT_ID')) {
+      console.warn('⚠️  Google OAuth not configured - Google login will not work');
+    }
   }
 
   async validate(
