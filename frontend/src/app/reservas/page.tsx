@@ -8,6 +8,19 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 
+type Reservation = {
+  id: number
+  service: string
+  date: string
+  time: string
+  duration: string
+  price: number
+  therapist: string
+  status: string
+  addOns: string[]
+  rating?: number
+}
+
 export default function ReservasPage() {
   const { data: session, status } = useSession()
   const [activeTab, setActiveTab] = useState('upcoming')

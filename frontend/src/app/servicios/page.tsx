@@ -129,9 +129,26 @@ const categories = [
   { id: 'rituales', name: 'Rituales' }
 ]
 
+type Service = {
+  id: number
+  name: string
+  category: string
+  duration: string
+  price: number
+  description: string
+  image: string
+  gallery: string[]
+  addOns: {
+    name: string
+    price: number
+    description: string
+  }[]
+  popular: boolean
+}
+
 export default function ServiciosPage() {
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedService, setSelectedService] = useState(null)
+  const [selectedService, setSelectedService] = useState<Service | null>(null)
 
   const filteredServices = selectedCategory === 'all' 
     ? services 
