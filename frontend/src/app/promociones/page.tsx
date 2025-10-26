@@ -150,9 +150,26 @@ const categories = [
   { id: 'social', name: 'Descuentos Sociales' }
 ]
 
+type Promotion = {
+  id: number
+  title: string
+  description: string
+  discount: number | null
+  type: string
+  originalPrice: number | null
+  discountedPrice: number | null
+  category: string
+  validUntil: string
+  image: string
+  services: string[]
+  terms: string
+  popular: boolean
+  featured: boolean
+}
+
 export default function PromocionesPage() {
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedPromotion, setSelectedPromotion] = useState(null)
+  const [selectedPromotion, setSelectedPromotion] = useState<Promotion | null>(null)
 
   const filteredPromotions = selectedCategory === 'all' 
     ? promotions 
