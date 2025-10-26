@@ -36,13 +36,16 @@ export default function PerfilPage() {
     const { name, value, type, checked } = e.target
     if (name.includes('.')) {
       const [parent, child] = name.split('.')
-      setFormData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent as keyof typeof prev],
-          [child]: type === 'checkbox' ? checked : value
+      setFormData(prev => {
+        const parentValue = prev[parent as keyof typeof prev] as Record<string, any>
+        return {
+          ...prev,
+          [parent]: {
+            ...parentValue,
+            [child]: type === 'checkbox' ? checked : value
+          }
         }
-      }))
+      })
     } else {
       setFormData(prev => ({
         ...prev,
