@@ -26,7 +26,7 @@ export default function ReservasPage() {
   const [activeTab, setActiveTab] = useState('upcoming')
 
   // Mock data - En producción esto vendría de una API
-  const reservations = {
+  const reservations: { upcoming: Reservation[], past: Reservation[] } = {
     upcoming: [
       {
         id: 1,
@@ -258,12 +258,12 @@ export default function ReservasPage() {
                         </div>
                       )}
 
-                      {reservation.rating && (
+                      {reservation.rating !== undefined && (
                         <div className="flex items-center space-x-1">
                           <span className="text-sm text-gray-600">Tu calificación:</span>
                           <div className="flex">
                             {[...Array(5)].map((_, i) => (
-                              <span key={i} className={`text-lg ${i < reservation.rating ? 'text-yellow-400' : 'text-gray-300'}`}>
+                              <span key={i} className={`text-lg ${i < reservation.rating! ? 'text-yellow-400' : 'text-gray-300'}`}>
                                 ⭐
                               </span>
                             ))}
@@ -283,7 +283,7 @@ export default function ReservasPage() {
                           </Button>
                         </>
                       )}
-                      {activeTab === 'past' && !reservation.rating && (
+                      {activeTab === 'past' && reservation.rating === undefined && (
                         <Button size="sm">
                           ⭐ Calificar
                         </Button>
