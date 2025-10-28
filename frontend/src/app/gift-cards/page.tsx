@@ -128,14 +128,14 @@ export default function GiftCardsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-purple-50 to-pink-50">
+      <main className="min-h-screen pt-24 pb-20 bg-[#FFFBF9]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold gradient-text mb-6">
+          <div className="text-center mb-16 fade-in">
+            <h1 className="text-5xl md:text-6xl font-serif font-bold gradient-text mb-6">
               Gift Cards
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
               Regala bienestar y relajación. Nuestras gift cards son perfectas para cualquier ocasión especial
             </p>
           </div>
@@ -144,41 +144,41 @@ export default function GiftCardsPage() {
             {/* Gift Card Builder */}
             <div className="lg:col-span-2">
               {/* Template Selection */}
-              <Card className="p-6 mb-8">
-                <h2 className="text-2xl font-bold gradient-text mb-6">1. Elige el Diseño</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Card className="p-8 mb-8 slide-up">
+                <h2 className="text-2xl font-serif font-bold gradient-text mb-8">1. Elige el Diseño</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {giftCardTemplates.map((template) => (
                     <div
                       key={template.id}
                       onClick={() => setSelectedTemplate(template)}
-                      className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                      className={`p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ${
                         selectedTemplate.id === template.id
-                          ? 'border-purple-500 bg-purple-50'
-                          : 'border-gray-200 hover:border-purple-300'
+                          ? 'border-spa-rose-400 bg-spa-rose-50/50 shadow-lg shadow-pink-100/40'
+                          : 'border-rose-100/60 hover:border-spa-rose-300 hover:shadow-md'
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-semibold">{template.name}</h3>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-serif font-semibold text-gray-800">{template.name}</h3>
                         {template.popular && (
-                          <span className="bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">
+                          <span className="bg-white/90 backdrop-blur-sm text-spa-gold-600 px-3 py-1 rounded-full text-xs font-semibold shadow-sm border border-spa-gold-200">
                             Popular
                           </span>
                         )}
                       </div>
-                      <div className="h-32 bg-gradient-to-br from-purple-200 to-pink-200 rounded-lg flex items-center justify-center mb-3">
+                      <div className="h-36 bg-spa-rose-100 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
                         <div className="text-center">
-                          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
-                            <span className="text-xl">🎁</span>
+                          <div className="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg border border-rose-100">
+                            <span className="text-2xl">🎁</span>
                           </div>
-                          <p className="text-sm text-gray-600">Vista previa</p>
+                          <p className="text-sm text-gray-500 font-light">Vista previa</p>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-600">{template.description}</p>
-                      <div className="flex space-x-2 mt-3">
+                      <p className="text-sm text-gray-600 font-light leading-relaxed mb-3">{template.description}</p>
+                      <div className="flex space-x-2">
                         {template.colors.map((color, index) => (
                           <div
                             key={index}
-                            className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
+                            className="w-7 h-7 rounded-full border-2 border-white shadow-md"
                             style={{ backgroundColor: color }}
                           />
                         ))}
@@ -189,33 +189,33 @@ export default function GiftCardsPage() {
               </Card>
 
               {/* Amount Selection */}
-              <Card className="p-6 mb-8">
-                <h2 className="text-2xl font-bold gradient-text mb-6">2. Elige el Monto</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <Card className="p-8 mb-8">
+                <h2 className="text-2xl font-serif font-bold gradient-text mb-8">2. Elige el Monto</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   {giftCardAmounts.map((item) => (
                     <button
                       key={item.amount}
                       onClick={() => handleAmountSelect(item.amount)}
-                      className={`p-4 border-2 rounded-lg text-center transition-all ${
+                      className={`p-5 border-2 rounded-xl text-center transition-all duration-300 ${
                         selectedAmount === item.amount && !customAmount
-                          ? 'border-purple-500 bg-purple-50'
-                          : 'border-gray-200 hover:border-purple-300'
+                          ? 'border-spa-rose-400 bg-spa-rose-50/50 shadow-lg shadow-pink-100/40'
+                          : 'border-rose-100/60 hover:border-spa-rose-300 hover:shadow-md'
                       }`}
                     >
-                      <div className="text-lg font-bold">{item.label}</div>
+                      <div className="text-xl font-serif font-bold text-gray-800">{item.label}</div>
                       {item.popular && (
-                        <div className="text-xs text-purple-600 font-semibold">Popular</div>
+                        <div className="text-xs text-spa-rose-600 font-semibold mt-1">Popular</div>
                       )}
                     </button>
                   ))}
                 </div>
-                
-                <div className="border-t pt-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+
+                <div className="border-t border-rose-100/40 pt-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
                     Monto Personalizado
                   </label>
                   <div className="flex">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    <span className="inline-flex items-center px-4 rounded-l-xl border-2 border-r-0 border-rose-100 bg-rose-50/30 text-gray-600 text-sm font-medium">
                       $
                     </span>
                     <input
@@ -223,12 +223,12 @@ export default function GiftCardsPage() {
                       value={customAmount}
                       onChange={(e) => handleCustomAmountChange(e.target.value)}
                       placeholder="Ingresa el monto"
-                      className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                      className="flex-1 min-w-0 block w-full px-4 py-3 rounded-r-xl border-2 border-rose-100 bg-white/80 focus:outline-none focus:ring-2 focus:ring-spa-rose-300 focus:border-spa-rose-300 transition-all duration-300"
                       min="25"
                       max="2000"
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-2 font-light">
                     Monto mínimo: $25 | Monto máximo: $2000
                   </p>
                 </div>

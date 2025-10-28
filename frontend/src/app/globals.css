@@ -1,51 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* Rosa pastel y blanco con detalles en verde y dorado */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 340 15% 25%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 340 15% 25%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 340 15% 25%;
+    --primary: 350 100% 88%; /* Rosa pastel */
+    --primary-foreground: 340 15% 25%;
+    --secondary: 145 35% 75%; /* Verde suave */
+    --secondary-foreground: 340 15% 25%;
+    --muted: 350 40% 96%;
+    --muted-foreground: 340 10% 50%;
+    --accent: 43 74% 66%; /* Dorado suave */
+    --accent-foreground: 340 15% 25%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --destructive-foreground: 0 0% 100%;
+    --border: 350 30% 92%;
+    --input: 350 30% 92%;
+    --ring: 350 100% 88%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --background: 340 20% 8%;
+    --foreground: 350 40% 96%;
+    --card: 340 18% 12%;
+    --card-foreground: 350 40% 96%;
+    --popover: 340 18% 12%;
+    --popover-foreground: 350 40% 96%;
+    --primary: 350 80% 70%;
+    --primary-foreground: 340 15% 25%;
+    --secondary: 145 25% 45%;
+    --secondary-foreground: 350 40% 96%;
+    --muted: 340 15% 18%;
+    --muted-foreground: 350 20% 65%;
+    --accent: 43 60% 55%;
+    --accent-foreground: 350 40% 96%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 350 40% 96%;
+    --border: 340 15% 18%;
+    --input: 340 15% 18%;
+    --ring: 350 80% 70%;
   }
 }
 
@@ -54,29 +57,76 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#FFFBF9] text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 
-/* Custom Spa Styles */
+/* Custom Ce Spa Styles */
 .gradient-text {
-  @apply bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent;
+  @apply text-spa-rose-600 font-serif;
 }
 
 .spa-gradient {
-  @apply bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50;
+  @apply bg-gradient-to-br from-rose-50/30 via-pink-50/20 to-[#FFFBF9];
 }
 
 .dark .spa-gradient {
-  @apply bg-gradient-to-br from-purple-950 via-pink-950 to-blue-950;
+  @apply bg-gradient-to-br from-rose-950/30 via-pink-950/30 to-slate-950;
 }
 
 .glass-effect {
-  @apply backdrop-blur-lg bg-white/70 dark:bg-gray-900/70 border border-white/20;
+  @apply backdrop-blur-xl bg-white/60 dark:bg-slate-900/80 border border-rose-100/20 dark:border-rose-900/30 shadow-lg shadow-pink-100/30;
 }
 
 .hover-lift {
-  @apply transition-transform duration-300 hover:-translate-y-1;
+  @apply transition-all duration-700 ease-out hover:-translate-y-2 hover:shadow-xl hover:shadow-pink-100/40;
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
 }
 
 /* Smooth scrolling */

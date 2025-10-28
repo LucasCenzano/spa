@@ -40,14 +40,14 @@ export function FeaturesSection() {
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
-              <div 
-                key={index} 
-                className="text-center p-6 rounded-lg glass-effect hover-lift"
+              <div
+                key={index}
+                className="text-center p-6 rounded-2xl glass-effect hover-lift fade-in"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-br from-purple-600 to-pink-600">
-                  <Icon className="h-8 w-8 text-white" />
+                <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-br from-spa-rose-300 via-pink-300 to-spa-gold-300 shadow-md">
+                  <Icon className="h-8 w-8 text-gray-800" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-rose-50">{feature.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
               </div>
             )

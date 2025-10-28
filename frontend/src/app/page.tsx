@@ -1,4 +1,4 @@
-import { HeroSection } from '@/components/home/hero-section'
+import { HeroSection, StatsSection } from '@/components/home/hero-section'
 import { ServicesPreview } from '@/components/home/services-preview'
 import { FeaturesSection } from '@/components/home/features-section'
 import { TestimonialsSection } from '@/components/home/testimonials-section'
@@ -11,6 +11,7 @@ export default function HomePage() {
     <main className="min-h-screen">
       <Navbar />
       <HeroSection />
+      <StatsSection />
       <ServicesPreview />
       <FeaturesSection />
       <TestimonialsSection />

@@ -7,12 +7,12 @@ import { Toaster } from '@/components/ui/toaster'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Spa de Lujo - Reserva tu experiencia',
-  description: 'Sistema integral de reservas y gestión para spa de lujo',
+  title: 'Ce Spa - Reserva tu experiencia',
+  description: 'Sistema integral de reservas y gestión para Ce Spa',
   keywords: ['spa', 'masajes', 'belleza', 'bienestar', 'relajación'],
-  authors: [{ name: 'Spa de Lujo' }],
+  authors: [{ name: 'Ce Spa' }],
   openGraph: {
-    title: 'Spa de Lujo',
+    title: 'Ce Spa',
     description: 'Reserva tu experiencia de relajación',
     type: 'website',
   },

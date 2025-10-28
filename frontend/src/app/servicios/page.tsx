@@ -157,26 +157,28 @@ export default function ServiciosPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-purple-50 to-pink-50">
+      <main className="min-h-screen pt-24 pb-20 bg-[#FFFBF9]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold gradient-text mb-6">
+          <div className="text-center mb-16 fade-in">
+            <h1 className="text-5xl md:text-6xl font-serif font-bold gradient-text mb-6">
               Nuestros Servicios
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
               Descubre nuestra amplia gama de tratamientos diseñados para tu bienestar y relajación
             </p>
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
             {categories.map((category) => (
               <Button
                 key={category.id}
                 variant={selectedCategory === category.id ? 'default' : 'outline'}
                 onClick={() => setSelectedCategory(category.id)}
-                className="px-6 py-2"
+                className={selectedCategory === category.id
+                  ? 'px-8 py-2 bg-spa-rose-300 text-gray-800 hover:bg-spa-rose-400 border-0 shadow-md'
+                  : 'px-8 py-2'}
               >
                 {category.name}
               </Button>
@@ -184,55 +186,51 @@ export default function ServiciosPage() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16 slide-up">
             {filteredServices.map((service) => (
-              <Card key={service.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
+              <Card key={service.id} className="group overflow-hidden transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-100/40">
                 <div className="relative">
-                  <div className="h-64 bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">
-                          {service.category === 'masajes' ? '💆' : 
+                  <div className="h-72 bg-gradient-to-br from-spa-rose-50 via-pink-50/50 to-spa-green-50/30 flex items-center justify-center overflow-hidden">
+                    <div className="text-center transition-transform duration-700 group-hover:scale-110">
+                      <div className="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border border-rose-100">
+                        <span className="text-4xl">
+                          {service.category === 'masajes' ? '💆' :
                            service.category === 'faciales' ? '✨' : '🧖‍♀️'}
                         </span>
                       </div>
-                      <p className="text-gray-600">Imagen del servicio</p>
+                      <p className="text-gray-500 text-sm font-light">Imagen del servicio</p>
                     </div>
                   </div>
                   {service.popular && (
-                    <div className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-semibold">
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-spa-gold-600 px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg border border-spa-gold-200">
                       ⭐ Popular
                     </div>
                   )}
                 </div>
-                
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-gray-900">{service.name}</h3>
-                    <span className="text-2xl font-bold text-purple-600">${service.price}</span>
+
+                <div className="p-7">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-serif font-bold text-gray-900 pr-2">{service.name}</h3>
+                    <span className="text-2xl font-serif font-bold gradient-text whitespace-nowrap">${service.price}</span>
                   </div>
-                  
-                  <div className="flex items-center text-gray-600 mb-4">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                  <div className="flex items-center text-gray-500 mb-4 font-light">
+                    <svg className="w-4 h-4 mr-2 text-spa-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {service.duration}
                   </div>
-                  
-                  <p className="text-gray-600 mb-6 line-clamp-3">{service.description}</p>
-                  
+
+                  <p className="text-gray-600 mb-6 line-clamp-3 font-light leading-relaxed">{service.description}</p>
+
                   <div className="space-y-3">
-                    <Button 
-                      className="w-full" 
+                    <Button
+                      variant="outline"
+                      className="w-full group-hover:bg-spa-rose-300 group-hover:text-gray-800 group-hover:border-transparent transition-all duration-500"
                       onClick={() => setSelectedService(service)}
                     >
                       Ver Detalles
                     </Button>
-                    <Link href={`/reservas?service=${service.id}`}>
-                      <Button variant="outline" className="w-full">
-                        Reservar Ahora
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               </Card>
@@ -240,12 +238,12 @@ export default function ServiciosPage() {
           </div>
 
           {/* CTA Section */}
-          <div className="text-center bg-white rounded-2xl shadow-xl p-12">
-            <h2 className="text-3xl font-bold gradient-text mb-4">
+          <div className="text-center bg-gradient-to-br from-white to-rose-50/30 rounded-3xl shadow-xl shadow-pink-100/30 p-12 md:p-16 border border-rose-100/40">
+            <h2 className="text-4xl font-serif font-bold gradient-text mb-5">
               ¿No encuentras lo que buscas?
             </h2>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-              Contáctanos y crearemos un tratamiento personalizado para ti
+            <p className="text-gray-600 font-light mb-10 max-w-2xl mx-auto text-lg leading-relaxed">
+              Contáctanos y crearemos un tratamiento personalizado especialmente para ti
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contacto">
@@ -254,7 +252,7 @@ export default function ServiciosPage() {
                 </Button>
               </Link>
               <Link href="/gift-cards">
-                <Button size="lg">
+                <Button size="lg" className="bg-spa-gold-300 hover:bg-spa-gold-400 text-gray-800 shadow-md">
                   Comprar Gift Card
                 </Button>
               </Link>

@@ -19,32 +19,32 @@ export function Navbar() {
   const { data: session } = useSession()
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b">
+    <nav className="fixed top-0 w-full z-50 glass-effect border-b border-spa-rose-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">S</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-rose-300 to-amber-300 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-xl">C</span>
             </div>
-            <span className="text-xl font-bold gradient-text">Spa de Lujo</span>
+            <span className="text-xl font-bold gradient-text">Ce Spa</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/servicios" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">
+            <Link href="/servicios" className="text-gray-700 dark:text-gray-300 hover:text-spa-rose-500 transition-colors duration-300">
               Servicios
             </Link>
-            <Link href="/promociones" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">
+            <Link href="/promociones" className="text-gray-700 dark:text-gray-300 hover:text-spa-rose-500 transition-colors duration-300">
               Promociones
             </Link>
-            <Link href="/gift-cards" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">
+            <Link href="/gift-cards" className="text-gray-700 dark:text-gray-300 hover:text-spa-gold-500 transition-colors duration-300">
               Gift Cards
             </Link>
-            <Link href="/nosotros" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">
+            <Link href="/nosotros" className="text-gray-700 dark:text-gray-300 hover:text-spa-green-500 transition-colors duration-300">
               Nosotros
             </Link>
-            <Link href="/contacto" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">
+            <Link href="/contacto" className="text-gray-700 dark:text-gray-300 hover:text-spa-rose-500 transition-colors duration-300">
               Contacto
             </Link>
           </div>
@@ -201,7 +201,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-purple-600 text-white hover:bg-purple-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium bg-gradient-to-r from-spa-rose-300 to-spa-gold-300 text-gray-800 hover:from-spa-rose-400 hover:to-spa-gold-400"
                   onClick={() => setIsOpen(false)}
                 >
                   Registrarse

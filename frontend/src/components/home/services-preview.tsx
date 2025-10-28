@@ -41,7 +41,7 @@ const services = [
 
 export function ServicesPreview() {
   return (
-    <section className="py-20 bg-white dark:bg-gray-900">
+    <section className="py-24 bg-[#FFFBF9]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -54,46 +54,50 @@ export function ServicesPreview() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
           {services.map((service) => (
-            <Card key={service.id} className="hover-lift overflow-hidden group">
+            <Card key={service.id} className="group overflow-hidden transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-100/40 border-rose-100/40">
               {/* Image Placeholder */}
-              <div className="relative h-48 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Sparkles className="h-16 w-16 text-purple-600 opacity-50" />
+              <div className="relative h-56 bg-gradient-to-br from-spa-rose-50 via-pink-50/50 to-spa-green-50/30 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-110">
+                  <Sparkles className="h-20 w-20 text-spa-gold-300 opacity-30 breathe" />
                 </div>
                 {service.featured && (
-                  <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-spa-rose-600 px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg border border-rose-100">
                     Popular
                   </div>
                 )}
               </div>
 
-              <CardHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-purple-600 uppercase tracking-wide">
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-medium text-spa-green-500 uppercase tracking-widest">
                     {service.category}
                   </span>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Clock className="h-4 w-4 mr-1" />
+                  <div className="flex items-center text-sm text-gray-500 font-light">
+                    <Clock className="h-4 w-4 mr-1.5" />
                     {service.duration} min
                   </div>
                 </div>
-                <CardTitle className="text-xl">{service.name}</CardTitle>
-                <CardDescription className="line-clamp-2">{service.description}</CardDescription>
+                <CardTitle className="text-xl mb-2">{service.name}</CardTitle>
+                <CardDescription className="line-clamp-2 leading-relaxed">{service.description}</CardDescription>
               </CardHeader>
 
-              <CardContent>
-                <div className="text-2xl font-bold gradient-text">
+              <CardContent className="pb-4">
+                <div className="text-3xl font-serif font-bold gradient-text">
                   {formatCurrency(service.price)}
                 </div>
               </CardContent>
 
-              <CardFooter>
-                <Button className="w-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600" asChild>
+              <CardFooter className="pt-0">
+                <Button
+                  variant="outline"
+                  className="w-full group-hover:bg-spa-rose-300 group-hover:text-gray-800 group-hover:border-transparent group-hover:shadow-md transition-all duration-500"
+                  asChild
+                >
                   <Link href={`/servicios/${service.id}`}>
-                    Reservar
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    Ver Detalles
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </Button>
               </CardFooter>
